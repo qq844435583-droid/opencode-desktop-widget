@@ -1,0 +1,138 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="color-scheme" content="dark">
+  <title>OpenCode Monitor</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <main class="widget-shell" id="widgetShell">
+    <div class="glass-noise" aria-hidden="true"></div>
+    <div class="liquid-light light-a" aria-hidden="true"></div>
+    <div class="liquid-light light-b" aria-hidden="true"></div>
+
+    <header class="titlebar drag-region">
+      <div class="brand-block">
+        <div class="brand-icon"><img src="../../assets/icon.png" alt=""></div>
+        <div class="brand-copy">
+          <div class="brand-line"><strong>OpenCode</strong><span class="connection-dot" id="connectionDot"></span></div>
+          <span id="updateText">等待连接</span>
+          <small class="version-badge">v3.4.3 · WebView2</small>
+        </div>
+      </div>
+      <div class="title-actions no-drag">
+        <button class="icon-button" id="refreshButton" title="立即刷新" aria-label="立即刷新" data-i18n-title="refreshNow">
+          <svg viewBox="0 0 24 24"><path d="M20 11a8 8 0 1 0-2.3 5.7M20 4v7h-7"/></svg>
+        </button>
+        <button class="icon-button" id="settingsButton" title="设置" aria-label="设置" data-i18n-title="settings">
+          <svg viewBox="0 0 24 24"><path d="M12 15.2a3.2 3.2 0 1 0 0-6.4 3.2 3.2 0 0 0 0 6.4Z"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.9l.1.1-2.8 2.8-.1-.1a1.7 1.7 0 0 0-1.9-.3 1.7 1.7 0 0 0-1 1.6v.2h-4V21a1.7 1.7 0 0 0-1-1.6 1.7 1.7 0 0 0-1.9.3l-.1.1L4.2 17l.1-.1a1.7 1.7 0 0 0 .3-1.9A1.7 1.7 0 0 0 3 14H2.8v-4H3a1.7 1.7 0 0 0 1.6-1 1.7 1.7 0 0 0-.3-1.9L4.2 7 7 4.2l.1.1a1.7 1.7 0 0 0 1.9.3A1.7 1.7 0 0 0 10 3V2.8h4V3a1.7 1.7 0 0 0 1 1.6 1.7 1.7 0 0 0 1.9-.3l.1-.1L19.8 7l-.1.1a1.7 1.7 0 0 0-.3 1.9 1.7 1.7 0 0 0 1.6 1h.2v4H21a1.7 1.7 0 0 0-1.6 1Z"/></svg>
+        </button>
+        <button class="icon-button language-button" id="languageButton" title="Switch to English" aria-label="Switch to English"><span>EN</span></button>
+        <button class="icon-button compact-login-button" id="compactLoginButton" title="登录 / 切换账户" aria-label="登录 / 切换账户" data-i18n-title="loginSwitch">
+          <svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="3.5"/><path d="M5.5 20a6.5 6.5 0 0 1 13 0"/></svg>
+        </button>
+        <button class="icon-button compact-button" id="compactButton" title="收起" aria-label="收起">
+          <svg class="expand-icon" viewBox="0 0 24 24"><path d="m7 10 5 5 5-5"/></svg>
+          <svg class="lock-icon" viewBox="0 0 24 24"><rect x="5.5" y="10" width="13" height="10" rx="2"/><path d="M8.5 10V7.5a3.5 3.5 0 0 1 7 0V10"/></svg>
+        </button>
+        <button class="icon-button close-button" id="closeButton" title="隐藏到托盘" aria-label="隐藏到托盘" data-i18n-title="hideToTray">
+          <svg viewBox="0 0 24 24"><path d="m7 7 10 10M17 7 7 17"/></svg>
+        </button>
+      </div>
+    </header>
+
+    <section class="compact-content" id="compactContent" aria-label="收起状态概览" data-i18n-aria="compactOverview">
+      <div class="compact-quotas">
+        <div><span>5h</span><strong data-compact="rolling">—</strong></div>
+        <i></i>
+        <div><span data-i18n="weekShort">周</span><strong data-compact="weekly">—</strong></div>
+        <i></i>
+        <div><span data-i18n="monthShort">月</span><strong data-compact="monthly">—</strong></div>
+        <span class="compact-countdown" id="compactCountdown">60s</span>
+      </div>
+      <div class="compact-models" id="compactModels">
+        <span class="compact-model empty" data-i18n="noModelRecords">暂无模型记录</span>
+      </div>
+    </section>
+
+    <div class="expanded-content" id="expandedContent">
+      <section class="account-state hidden" id="emptyState">
+        <div class="empty-orb"><span></span></div>
+        <strong data-i18n="connectOpenCode">连接 OpenCode</strong>
+        <p data-i18n="connectDescription">登录后自动显示三项已用额度和最近 50 条调用。</p>
+        <button class="primary-button no-drag" id="loginButton" data-i18n="webLogin">网页登录</button>
+      </section>
+
+      <section class="usage-list" id="usageList">
+        <article class="usage-row" data-key="rolling">
+          <div class="metric-copy"><div><strong data-i18n="rollingLimit">滚动额度</strong><span data-i18n="fiveHours">5 小时</span></div><small class="reset-text">等待数据</small></div>
+          <div class="metric-value"><strong class="used-value">—</strong><span data-i18n="used">已用</span></div>
+          <div class="progress"><i class="progress-fill"></i></div>
+        </article>
+        <article class="usage-row" data-key="weekly">
+          <div class="metric-copy"><div><strong data-i18n="weeklyLimit">每周额度</strong><span data-i18n="sevenDays">7 天</span></div><small class="reset-text">等待数据</small></div>
+          <div class="metric-value"><strong class="used-value">—</strong><span data-i18n="used">已用</span></div>
+          <div class="progress"><i class="progress-fill"></i></div>
+        </article>
+        <article class="usage-row" data-key="monthly">
+          <div class="metric-copy"><div><strong data-i18n="monthlyLimit">每月额度</strong><span data-i18n="thirtyDays">30 天</span></div><small class="reset-text">等待数据</small></div>
+          <div class="metric-value"><strong class="used-value">—</strong><span data-i18n="used">已用</span></div>
+          <div class="progress"><i class="progress-fill"></i></div>
+        </article>
+      </section>
+
+      <section class="quick-stats" id="quickStats">
+        <div><span data-i18n="requests">请求</span><strong id="requestCount">—</strong></div>
+        <i></i>
+        <div><span data-i18n="input">输入</span><strong id="inputTotal">—</strong></div>
+        <i></i>
+        <div><span data-i18n="cache">缓存</span><strong id="cacheTotal">—</strong></div>
+      </section>
+
+      <section class="records-section">
+        <div class="section-title">
+          <div><strong data-i18n="recentCalls">最近调用</strong><span id="recordCountText">0 / 50</span></div>
+          <button class="text-button no-drag" id="openWorkspaceButton" data-i18n="openOpenCode">打开 OpenCode</button>
+        </div>
+        <div class="record-list" id="recordList"><div class="record-empty" data-i18n="noCalls">暂无调用记录</div></div>
+        <div class="pagination no-drag" id="pagination">
+          <button id="prevPageButton" aria-label="上一页" data-i18n-aria="previousPage"><svg viewBox="0 0 24 24"><path d="m15 18-6-6 6-6"/></svg></button>
+          <span id="pageText">1 / 5</span>
+          <button id="nextPageButton" aria-label="下一页" data-i18n-aria="nextPage"><svg viewBox="0 0 24 24"><path d="m9 18 6-6-6-6"/></svg></button>
+        </div>
+      </section>
+
+      <footer class="widget-footer">
+        <div class="account-pill"><span class="account-avatar" id="accountAvatar">O</span><div><strong id="accountName">未连接</strong><span id="workspaceText">OpenCode Go</span></div></div>
+        <div class="auto-pill"><span class="pulse-dot"></span><span id="autoRefreshText">60s 后更新</span></div>
+      </footer>
+    </div>
+
+    <section class="settings-panel hidden no-drag" id="settingsPanel">
+      <div class="settings-head"><div><strong data-i18n="widgetSettings">挂件设置</strong><span data-i18n="settingsSubtitle">简洁、清晰、贴边不打扰</span></div><button class="icon-button" id="settingsCloseButton"><svg viewBox="0 0 24 24"><path d="m7 7 10 10M17 7 7 17"/></svg></button></div>
+      <label class="setting-row"><div><strong data-i18n="interfaceLanguage">界面语言</strong><span data-i18n="languageDescription">只翻译软件界面，OpenCode 数据保持官网原文</span></div><select class="select-field" id="languageSelect"><option value="zh-CN">中文</option><option value="en-US">English</option></select></label>
+      <label class="setting-row"><div><strong data-i18n="refreshFrequency">刷新频率</strong><span data-i18n="refreshDescription">自定义秒数，默认 60 秒</span></div><span class="number-field"><input id="refreshInterval" type="number" min="10" max="86400" step="1" inputmode="numeric"><em data-i18n="seconds">秒</em></span></label>
+      <label class="setting-row"><div><strong data-i18n="edgeHide">贴边自动隐藏</strong><span data-i18n="edgeHideDescription">拖到顶部或右侧即可缩进去</span></div><span class="switch"><input id="edgeHide" type="checkbox"><i></i></span></label>
+      <label class="setting-row"><div><strong data-i18n="alwaysOnTop">始终置顶</strong><span data-i18n="alwaysOnTopDescription">保持在其他窗口上方</span></div><span class="switch"><input id="alwaysOnTop" type="checkbox"><i></i></span></label>
+      <label class="setting-row"><div><strong data-i18n="launchAtLogin">开机启动</strong><span data-i18n="launchDescription">登录系统后自动运行</span></div><span class="switch"><input id="launchAtLogin" type="checkbox"><i></i></span></label>
+      <label class="setting-row"><div><strong data-i18n="quotaAlerts">额度提醒</strong><span data-i18n="quotaAlertsDescription">剩余额度低于阈值时通知</span></div><span class="switch"><input id="notifications" type="checkbox"><i></i></span></label>
+      <label class="threshold-row"><span data-i18n="remainingThreshold">剩余阈值</span><input id="warningThreshold" type="range" min="5" max="80" step="5"><strong id="thresholdValue">25%</strong></label>
+      <label class="setting-row"><div><strong data-i18n="ngAlerts">NG 模型警报</strong><span data-i18n="ngAlertsDescription">检测到 NG 模型时响铃并弹出系统通知</span></div><span class="switch"><input id="ngAlertEnabled" type="checkbox"><i></i></span></label>
+      <section class="model-rule-settings">
+        <div class="model-rule-head"><strong data-i18n="modelRules">OK / NG 模型判断</strong><span data-i18n="modelRulesDescription">每行一个模型；支持 * 通配符，NG 优先</span></div>
+        <label class="rule-field ok-rule"><span><b>OK</b> <i data-i18n="allowedModels">允许模型</i></span><textarea id="okModelRules" rows="3" spellcheck="false" placeholder="例如：&#10;gpt-5*&#10;claude-sonnet-4.5" data-i18n-placeholder="rulesPlaceholder"></textarea></label>
+        <label class="rule-field ng-rule"><span><b>NG</b> <i data-i18n="alertModels">警报模型</i></span><textarea id="ngModelRules" rows="3" spellcheck="false" placeholder="例如：&#10;deepseek-v4*&#10;unknown-model" data-i18n-placeholder="ngRulesPlaceholder"></textarea></label>
+      </section>
+      <div class="settings-actions"><button class="secondary-button" id="switchAccountButton" data-i18n="loginAddAccount">登录 / 添加账户</button><button class="primary-button small" id="saveSettingsButton" data-i18n="done">完成</button></div>
+      <p class="settings-tip" data-i18n="settingsTip">贴边后鼠标靠近会自动展开。模型规则不区分大小写；相同记录只警报一次。</p>
+    </section>
+
+    <div class="toast hidden" id="toast"></div>
+  </main>
+  <script src="webview2-bridge.js"></script>
+  <script src="recent-models.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

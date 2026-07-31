@@ -1,0 +1,33 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net8.0-windows</TargetFramework>
+    <UseWindowsForms>true</UseWindowsForms>
+    <EnableWindowsTargeting>true</EnableWindowsTargeting>
+    <ApplicationManifest>app.manifest</ApplicationManifest>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <ApplicationIcon>assets\icon.ico</ApplicationIcon>
+    <AssemblyName>OpenCode.Desktop.Widget</AssemblyName>
+    <RootNamespace>OpenCodeDesktopWidget</RootNamespace>
+    <Version>3.4.3</Version>
+    <Authors>OpenCode Desktop Widget</Authors>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Web.WebView2" Version="1.0.4078.44" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="assets\**\*" CopyToOutputDirectory="PreserveNewest" />
+    <None Update="scripts\**\*" CopyToOutputDirectory="PreserveNewest" />
+    <None Update="src\renderer\**\*" CopyToOutputDirectory="PreserveNewest" />
+    <None Update="store.json" CopyToOutputDirectory="PreserveNewest" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Remove="seller-tools\**\*.cs" />
+    <EmbeddedResource Remove="seller-tools\**\*" />
+    <None Remove="seller-tools\**\*" />
+  </ItemGroup>
+</Project>

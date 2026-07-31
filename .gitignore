@@ -1,0 +1,28 @@
+# Build outputs
+bin/
+obj/
+publish/
+release/
+*.user
+*.suo
+
+# Generated licenses
+issued-licenses/
+
+# Seller-only assets (private key, license generator, server code, protection tooling)
+seller-tools/
+license-server/
+license-server-vercel/
+tools/
+configure-auto-license.bat
+generate-license.bat
+manage-license.bat
+manage-license.ps1
+package-protected-client.bat
+PROTECTION.md
+README-SELLER.md
+AGENT-FINISH-SETUP.md
+
+# Local tooling
+tools/protection/node_modules/
+tools/obfuscar-package/packages.lock.json
