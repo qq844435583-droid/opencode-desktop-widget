@@ -51,7 +51,7 @@
 这个版本将原先的 Electron/Chromium 宿主替换为 **C# WinForms + Microsoft Edge WebView2**。  
 界面仍然使用原本的 **HTML / CSS / JavaScript**，但不再随程序打包一整套 Chromium。
 
-This version replaces the previous Electron/Chromium host with **C# WinForms + Microsoft Edge WebView2**, while keeping the existing **HTML / CSS / JavaScript** UI.
+This version replaces the previous Electron/Chromium host with **C# WinForms + Microsoft Edge WebView2**, while keeping the existing **HTML / CSS / JavaScript** UI. No full Chromium runtime is bundled with the app anymore.
 
 ## 技术栈 / Tech Stack
 
@@ -63,74 +63,94 @@ This version replaces the previous Electron/Chromium host with **C# WinForms + M
 
 ## 开发与编译 / Build
 
-### 环境要求
+### 环境要求 / Requirements
 
 1. Windows 10 / 11  
-2. Visual Studio 2022 或 .NET 8 SDK  
+2. Visual Studio 2022 或 .NET 8 SDK / Visual Studio 2022 or .NET 8 SDK  
 3. Microsoft Edge WebView2 Runtime
 
-项目固定使用：
+项目固定使用：The project pins the following version:
 
 ```text
 Microsoft.Web.WebView2 1.0.4078.44
 ```
 
-### 编译
+### 编译 / Compile
 
-构建依赖 .NET 8 Desktop Runtime 的较小版本：
+构建依赖 .NET 8 Desktop Runtime 的较小版本：  
+The framework-dependent build requires the smaller .NET 8 Desktop Runtime:
 
 ```bat
 build.bat
 ```
 
-输出目录：
+输出目录：Output directory:
 
 ```text
 publish\win-x64\
 ```
 
-如需无需额外安装 .NET Runtime 的版本：
+如需无需额外安装 .NET Runtime 的版本：  
+For a build that needs no separate .NET Runtime installation:
 
 ```bat
 build-self-contained.bat
 ```
 
-### 运行
+### 运行 / Run
 
 ```text
 publish\win-x64\OpenCode.Desktop.Widget.exe
 ```
 
-首次使用点击 **“网页登录”**，完成 OpenCode 登录后会自动捕获工作区与登录 Cookie。
+首次使用点击 **“网页登录”**，完成 OpenCode 登录后会自动捕获工作区与登录 Cookie。  
+On first launch, click **Web sign-in** and complete your OpenCode login; the app will automatically capture your workspace and login cookie.
 
 ## 配置兼容 / Config Compatibility
 
-配置文件路径：
+配置文件路径：Config file location:
 
 ```text
 %APPDATA%\OpenCode Desktop Widget\config.json
 ```
 
-- 旧 Electron 版的 `plain:` 凭据可以直接读取。
-- `enc:` 凭据会尝试通过 Windows DPAPI 解密。
-- 如果旧版加密格式不兼容，程序会提示重新登录。
+- 旧 Electron 版的 `plain:` 凭据可以直接读取。  
+  `plain:` credentials from the old Electron version can be read directly.
+- `enc:` 凭据会尝试通过 Windows DPAPI 解密。  
+  `enc:` credentials are decrypted with Windows DPAPI when possible.
+- 如果旧版加密格式不兼容，程序会提示重新登录。  
+  If the legacy encrypted format is incompatible, the app will ask you to sign in again.
 
-## v3.0.1 修复 / Fixes
+## v3.4.3 更新 / What's New
 
-- 修复 Windows 125% / 150% / 175% 缩放下 WebView2 内容被放大裁切。
-- 修复完整模式底部分页和账户栏不可见。
-- 修复标题栏刷新秒数被按钮遮挡。
-- 修复紧凑模式高度不正确、模型行消失。
-- 修复 CSS 圆角与原生窗口圆角不一致造成的黑边。
+- **服务端可吊销授权**：Pro 一次性购买，默认支持最多 2 台设备，7 天自动续签，14 天离线宽限，退款或吊销后自动降级。  
+  Server-revocable licenses: one-time Pro purchase, up to 2 devices by default, 7-day auto-renewal, 14-day offline grace, and automatic downgrade after refund or revocation.
+- **Stripe 自动发证**：付款完成后无需人工干预，自动签发许可证。  
+  Automatic Stripe license delivery right after payment.
+- **中英双语界面**。  
+  Bilingual UI (English / 中文).
+
+### v3.0.1 修复 / Fixes
+
+- 修复 Windows 125% / 150% / 175% 缩放下 WebView2 内容被放大裁切。  
+  Fixed WebView2 content being scaled and clipped at 125% / 150% / 175% Windows scaling.
+- 修复完整模式底部分页和账户栏不可见。  
+  Fixed pagination and account bar not visible at the bottom of the expanded mode.
+- 修复标题栏刷新秒数被按钮遮挡。  
+  Fixed refresh seconds in the title bar being overlapped by buttons.
+- 修复紧凑模式高度不正确、模型行消失。  
+  Fixed compact mode height and missing model rows.
+- 修复 CSS 圆角与原生窗口圆角不一致造成的黑边。  
+  Fixed black edges caused by mismatched CSS and native window corner radii.
 
 ## 目录结构 / Project Structure
 
 ```text
-assets/           图标等资源
-scripts/          页面抓取脚本
-src/host/         WinForms 宿主逻辑
-src/renderer/     挂件前端界面（HTML/CSS/JS）
-publish/win-x64/  发布输出
+assets/           图标等资源 / icons and assets
+scripts/          页面抓取脚本 / page scraping scripts
+src/host/         WinForms 宿主逻辑 / WinForms host logic
+src/renderer/     挂件前端界面（HTML/CSS/JS）/ widget UI (HTML/CSS/JS)
+publish/win-x64/  发布输出 / build output
 ```
 
 ## License
