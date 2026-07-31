@@ -18,7 +18,7 @@
 
 ## 预览 / Preview
 
-> 以下截图来自当前仓库中的真实界面（`src/renderer`）渲染结果，使用内置演示数据展示，不是重画示意图。  
+> 以下英文截图来自当前仓库中的真实界面（`src/renderer`）渲染结果，使用内置演示数据展示，不是重画示意图。  
 > The screenshots below are rendered from the actual UI in this repository (`src/renderer`) with the built-in demo data.
 
 ### 展开模式 / Expanded
