@@ -1,4 +1,4 @@
-# OpenCode Desktop Widget · WebView2 版
+# OpenCode Desktop Widget · WebView2 Edition
 
 <p align="center">
   <img src="assets/readme/icon.png" alt="OpenCode Desktop Widget icon" width="96" />
@@ -18,142 +18,152 @@
 
 ## 预览 / Preview
 
-> 以下英文截图来自当前仓库中的真实界面（`src/renderer`）渲染结果，使用内置演示数据展示，不是重画示意图。  
-> The screenshots below are rendered from the actual UI in this repository (`src/renderer`) with the built-in demo data.
+以下英文截图直接由当前仓库中的真实界面文件 `src/renderer` 渲染，并使用项目内置的演示数据。它们不是生成图片，也不是重新绘制的示意图。  
+The English screenshots below are rendered directly from the real `src/renderer` UI in this repository using the project's built-in demo data. They are not AI-generated or redrawn mockups.
 
-### 展开模式 / Expanded
+### 展开模式 / Expanded Mode
 
-![Expanded UI](assets/readme/screenshot-expanded.png)
+![OpenCode Desktop Widget expanded mode](assets/readme/screenshot-expanded.png)
 
-### 收起模式 / Compact
+### 收起模式 / Compact Mode
 
-![Compact UI](assets/readme/screenshot-compact.png)
+![OpenCode Desktop Widget compact mode](assets/readme/screenshot-compact.png)
 
 ## 功能特性 / Features
 
-- **三段额度概览**：显示滚动额度、每周额度、每月额度，以及重置倒计时。  
-  Rolling / weekly / monthly usage with reset countdown.
-- **最近调用记录**：展示最近 50 条调用记录，支持分页查看。  
-  Recent request list with up to 50 records and pagination.
-- **模型状态标记**：按规则区分 `OK / NG / —`，方便快速识别模型使用情况。  
-  Model status rules for `OK / NG / —` labels.
-- **紧凑模式**：可收起为更小挂件，仅保留关键信息。  
-  Compact mode for a smaller always-visible widget.
-- **桌面增强能力**：支持置顶、贴边隐藏、托盘驻留等桌面行为。  
-  Desktop behaviors such as always-on-top, edge-hide, and tray integration.
-- **网页登录**：通过 WebView2 登录 OpenCode，并读取登录 Cookie。  
-  Web login flow through WebView2 with cookie capture.
-- **提醒与规则**：支持剩余额度阈值提醒、OK/NG 模型规则、NG 警报。  
-  Usage warnings, OK/NG rule configuration, and NG alerts.
+- **三段额度概览**：显示滚动额度、每周额度、每月额度，以及各自的重置倒计时。  
+  **Three usage periods:** View rolling, weekly, and monthly usage together with the reset countdown for each period.
+
+- **最近调用记录**：展示最近 50 条调用记录，并支持分页浏览。  
+  **Recent request history:** Review the latest 50 requests with built-in pagination.
+
+- **模型状态标记**：根据自定义规则显示 `OK`、`NG` 或中性状态，便于快速确认当前调用的模型。  
+  **Model status labels:** Apply customizable rules to mark models as `OK`, `NG`, or neutral for quick identification.
+
+- **紧凑模式**：将窗口收起成更小的桌面挂件，同时保留额度与最近模型状态。  
+  **Compact mode:** Collapse the window into a smaller desktop widget while keeping usage and recent model status visible.
+
+- **桌面增强功能**：支持窗口置顶、贴边隐藏、自动展开以及系统托盘驻留。  
+  **Desktop integration:** Includes always-on-top, edge hiding, automatic reveal, and system tray support.
+
+- **网页登录**：通过 Microsoft Edge WebView2 完成 OpenCode 登录，并读取所需的登录 Cookie。  
+  **Web sign-in:** Sign in to OpenCode through Microsoft Edge WebView2 and capture the required authentication cookie.
+
+- **提醒与模型规则**：支持剩余额度阈值提醒、自定义 OK/NG 模型规则以及 NG 模型警报。  
+  **Alerts and model rules:** Configure low-usage warnings, custom OK/NG model rules, and NG model notifications.
+
+- **安全配置存储**：登录凭据通过 Windows DPAPI 加密，并存储在用户配置目录。  
+  **Secure configuration storage:** Authentication data is encrypted with Windows DPAPI and stored in the user's configuration directory.
 
 ## 项目说明 / About
 
-这个版本将原先的 Electron/Chromium 宿主替换为 **C# WinForms + Microsoft Edge WebView2**。  
-界面仍然使用原本的 **HTML / CSS / JavaScript**，但不再随程序打包一整套 Chromium。
+这个版本将原先的 Electron/Chromium 宿主替换为 **C# WinForms + Microsoft Edge WebView2**。界面继续使用原有的 **HTML、CSS 和 JavaScript**，但发布包不再需要附带完整的 Chromium。  
+This edition replaces the previous Electron/Chromium host with **C# WinForms + Microsoft Edge WebView2**. The interface continues to use the existing **HTML, CSS, and JavaScript**, without bundling a full Chromium runtime with the application.
 
-This version replaces the previous Electron/Chromium host with **C# WinForms + Microsoft Edge WebView2**, while keeping the existing **HTML / CSS / JavaScript** UI. No full Chromium runtime is bundled with the app anymore.
+主挂件、系统托盘、窗口置顶、鼠标穿透和贴边隐藏均由 WinForms 原生实现。  
+The main widget, system tray integration, always-on-top behavior, click-through handling, and edge hiding are implemented natively with WinForms.
 
-## 技术栈 / Tech Stack
+## 技术栈 / Technology Stack
 
-- **Host**: C# / WinForms / .NET 8
-- **Embedded browser**: Microsoft Edge WebView2
-- **UI**: HTML + CSS + JavaScript
-- **Data scripts**: `scripts/metrics.js`, `scripts/records.js`
-- **Configuration**: `%APPDATA%\OpenCode Desktop Widget\config.json`
+- **宿主 / Host:** C# · WinForms · .NET 8
+- **嵌入式浏览器 / Embedded browser:** Microsoft Edge WebView2
+- **界面 / Interface:** HTML · CSS · JavaScript
+- **数据脚本 / Data scripts:** `scripts/metrics.js` and `scripts/records.js`
+- **安全存储 / Secure storage:** Windows DPAPI
+- **配置路径 / Configuration path:** `%APPDATA%\OpenCode Desktop Widget\config.json`
 
-## 开发与编译 / Build
+## 开发与编译 / Development and Build
 
 ### 环境要求 / Requirements
 
-1. Windows 10 / 11  
-2. Visual Studio 2022 或 .NET 8 SDK / Visual Studio 2022 or .NET 8 SDK  
-3. Microsoft Edge WebView2 Runtime
+1. Windows 10 或 Windows 11。  
+   Windows 10 or Windows 11.
+2. Visual Studio 2022，或者 .NET 8 SDK。  
+   Visual Studio 2022 or the .NET 8 SDK.
+3. Microsoft Edge WebView2 Runtime。  
+   Microsoft Edge WebView2 Runtime.
 
-项目固定使用：The project pins the following version:
+项目固定使用以下 WebView2 版本：  
+The project currently pins the following WebView2 package version:
 
 ```text
 Microsoft.Web.WebView2 1.0.4078.44
 ```
 
-### 编译 / Compile
+### 编译普通版本 / Build the Standard Version
 
-构建依赖 .NET 8 Desktop Runtime 的较小版本：  
-The framework-dependent build requires the smaller .NET 8 Desktop Runtime:
+普通构建生成较小的发布包，但目标电脑需要安装 .NET 8 Desktop Runtime。  
+The standard build produces a smaller package, but the target computer must have the .NET 8 Desktop Runtime installed.
 
 ```bat
 build.bat
 ```
 
-输出目录：Output directory:
+输出目录如下：  
+The output is written to:
 
 ```text
 publish\win-x64\
 ```
 
-如需无需额外安装 .NET Runtime 的版本：  
-For a build that needs no separate .NET Runtime installation:
+### 编译独立版本 / Build the Self-Contained Version
+
+独立版本不要求目标电脑预先安装 .NET Runtime，但发布包会更大。  
+The self-contained build does not require a preinstalled .NET Runtime, but the resulting package is larger.
 
 ```bat
 build-self-contained.bat
 ```
 
-### 运行 / Run
+### 启动程序 / Run the Application
 
 ```text
 publish\win-x64\OpenCode.Desktop.Widget.exe
 ```
 
-首次使用点击 **“网页登录”**，完成 OpenCode 登录后会自动捕获工作区与登录 Cookie。  
-On first launch, click **Web sign-in** and complete your OpenCode login; the app will automatically capture your workspace and login cookie.
+首次使用时点击 **“网页登录”**。完成 OpenCode 登录后，程序会自动捕获工作区信息和登录 Cookie。  
+On first launch, select **“Sign in on the web.”** After the OpenCode sign-in is complete, the application automatically captures the workspace information and authentication cookie.
 
-## 配置兼容 / Config Compatibility
+## 配置兼容 / Configuration Compatibility
 
-配置文件路径：Config file location:
+配置文件继续保存在以下位置：  
+The configuration file remains at:
 
 ```text
 %APPDATA%\OpenCode Desktop Widget\config.json
 ```
 
 - 旧 Electron 版的 `plain:` 凭据可以直接读取。  
-  `plain:` credentials from the old Electron version can be read directly.
-- `enc:` 凭据会尝试通过 Windows DPAPI 解密。  
-  `enc:` credentials are decrypted with Windows DPAPI when possible.
-- 如果旧版加密格式不兼容，程序会提示重新登录。  
-  If the legacy encrypted format is incompatible, the app will ask you to sign in again.
+  Existing `plain:` credentials from the Electron edition can be read directly.
+- `enc:` 凭据会尝试使用 Windows DPAPI 解密。  
+  Existing `enc:` credentials are decrypted through Windows DPAPI when possible.
+- 如果旧版加密格式不兼容，程序会提示用户重新登录。  
+  If an older encrypted format is incompatible, the application asks the user to sign in again.
 
-## v3.4.3 更新 / What's New
+## v3.0.1 修复内容 / Fixes in v3.0.1
 
-- **服务端可吊销授权**：Pro 一次性购买，默认支持最多 2 台设备，7 天自动续签，14 天离线宽限，退款或吊销后自动降级。  
-  Server-revocable licenses: one-time Pro purchase, up to 2 devices by default, 7-day auto-renewal, 14-day offline grace, and automatic downgrade after refund or revocation.
-- **Stripe 自动发证**：付款完成后无需人工干预，自动签发许可证。  
-  Automatic Stripe license delivery right after payment.
-- **中英双语界面**。  
-  Bilingual UI (English / 中文).
+- 修复 Windows 125%、150% 和 175% 缩放下 WebView2 内容被放大或裁切的问题。  
+  Fixed WebView2 content being enlarged or clipped at 125%, 150%, and 175% Windows scaling.
+- 修复完整模式底部分页栏和账户栏不可见的问题。  
+  Fixed the pagination and account areas being hidden in expanded mode.
+- 修复标题栏刷新倒计时被按钮遮挡的问题。  
+  Fixed the refresh countdown being obscured by title-bar buttons.
+- 修复紧凑模式高度错误以及模型行消失的问题。  
+  Fixed incorrect compact-mode height and missing model rows.
+- 修复 CSS 圆角与原生窗口圆角不一致导致的黑边。  
+  Fixed black edges caused by a mismatch between CSS and native window corner radii.
 
-### v3.0.1 修复 / Fixes
-
-- 修复 Windows 125% / 150% / 175% 缩放下 WebView2 内容被放大裁切。  
-  Fixed WebView2 content being scaled and clipped at 125% / 150% / 175% Windows scaling.
-- 修复完整模式底部分页和账户栏不可见。  
-  Fixed pagination and account bar not visible at the bottom of the expanded mode.
-- 修复标题栏刷新秒数被按钮遮挡。  
-  Fixed refresh seconds in the title bar being overlapped by buttons.
-- 修复紧凑模式高度不正确、模型行消失。  
-  Fixed compact mode height and missing model rows.
-- 修复 CSS 圆角与原生窗口圆角不一致造成的黑边。  
-  Fixed black edges caused by mismatched CSS and native window corner radii.
-
-## 目录结构 / Project Structure
+## 项目结构 / Project Structure
 
 ```text
-assets/           图标等资源 / icons and assets
-scripts/          页面抓取脚本 / page scraping scripts
+assets/           图标与其他资源 / Icons and other assets
+scripts/          数据抓取脚本 / Data extraction scripts
 src/host/         WinForms 宿主逻辑 / WinForms host logic
-src/renderer/     挂件前端界面（HTML/CSS/JS）/ widget UI (HTML/CSS/JS)
-publish/win-x64/  发布输出 / build output
+src/renderer/     HTML/CSS/JS 界面 / HTML, CSS, and JavaScript interface
+publish/win-x64/  发布输出 / Published application output
 ```
 
-## License
+## 授权 / License
 
-请根据你的实际授权方式补充许可证内容。  
-Add your actual license information here if you plan to publish the repository publicly.
+请根据实际发布与收费方式，在公开仓库前补充适用的许可证或商业授权说明。  
+Before publishing the repository, add the license or commercial-use terms that match your actual distribution and payment model.
